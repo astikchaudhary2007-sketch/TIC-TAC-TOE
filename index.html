@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Noughts &amp; Crosses</title>
+  <meta name="description" content="A tic-tac-toe game. Play a friend on the same screen or take on the computer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231c1a17'/%3E%3Cpath d='M8 8l16 16M24 8L8 24' stroke='%23e0583a' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap masthead__inner">
+      <a class="wordmark" href="./" aria-label="Noughts and Crosses, home">
+        <span class="wordmark__x">×</span><span class="wordmark__o">○</span>
+        <span class="wordmark__text">Noughts <em>&amp;</em> Crosses</span>
+      </a>
+      <div class="masthead__meta">
+        <span id="roundLabel" class="mono">Round 1</span>
+        <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <section class="stage" aria-label="Game board">
+      <p id="status" class="status" role="status" aria-live="polite">
+        <span class="status__mark" data-mark="X">×</span>
+        <span class="status__text">Crosses to move</span>
+      </p>
+
+      <div class="board" id="board">
+        <svg class="board__grid" viewBox="0 0 300 300" aria-hidden="true">
+          <path d="M101 8 C 99 80, 103 180, 100 292" />
+          <path d="M200 6 C 202 90, 198 200, 201 294" />
+          <path d="M8 100 C 90 102, 200 98, 292 101" />
+          <path d="M6 199 C 100 197, 210 202, 294 200" />
+        </svg>
+        <div class="board__cells" id="cells" role="grid" aria-label="Tic-tac-toe board"></div>
+        <svg class="board__strike" viewBox="0 0 300 300" aria-hidden="true">
+          <line id="strike" x1="0" y1="0" x2="0" y2="0" />
+        </svg>
+      </div>
+
+      <div class="actions">
+        <button id="undoBtn" class="btn btn--ghost" type="button" disabled>
+          <kbd>U</kbd> Undo
+        </button>
+        <button id="newRoundBtn" class="btn btn--solid" type="button">
+          <kbd>N</kbd> New round
+        </button>
+      </div>
+      <p class="hint mono">Tip: keys 1–9 play the squares, laid out like a phone keypad.</p>
+    </section>
+
+    <aside class="panel" aria-label="Game settings and score">
+      <section class="card">
+        <h2 class="card__title">Opponent</h2>
+        <div class="segmented" role="radiogroup" aria-label="Opponent">
+          <button type="button" role="radio" data-mode="pvp" aria-checked="true">Two players</button>
+          <button type="button" role="radio" data-mode="cpu" aria-checked="false">Computer</button>
+        </div>
+
+        <div id="cpuOptions" class="cpu-options" hidden>
+          <label class="field">
+            <span class="field__label">Difficulty</span>
+            <select id="difficulty">
+              <option value="easy">Easy: plays at random</option>
+              <option value="normal" selected>Normal: sometimes slips</option>
+              <option value="hard">Unbeatable: perfect play</option>
+            </select>
+          </label>
+          <div class="field">
+            <span class="field__label">You play as</span>
+            <div class="segmented segmented--small" role="radiogroup" aria-label="Your mark">
+              <button type="button" role="radio" data-side="X" aria-checked="true">× Crosses</button>
+              <button type="button" role="radio" data-side="O" aria-checked="false">○ Noughts</button>
+            </div>
+          </div>
+        </div>
+        <p class="note">Who goes first switches every round.</p>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <h2 class="card__title">Score</h2>
+          <button id="resetScoreBtn" class="link-btn" type="button">Reset</button>
+        </div>
+        <dl class="scoreboard">
+          <div class="score score--x">
+            <dt id="nameX">You</dt>
+            <dd id="scoreX">0</dd>
+          </div>
+          <div class="score score--draw">
+            <dt>Draws</dt>
+            <dd id="scoreDraw">0</dd>
+          </div>
+          <div class="score score--o">
+            <dt id="nameO">Computer</dt>
+            <dd id="scoreO">0</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="card">
+        <h2 class="card__title">Moves</h2>
+        <ol id="moveLog" class="move-log"></ol>
+        <p id="moveLogEmpty" class="note">No moves yet.</p>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="wrap footer mono">
+    <span>Three in a row wins. Fill the board without one and it's a draw.</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
